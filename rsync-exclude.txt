@@ -1,0 +1,22 @@
+
+## Fichiers IDEA
+.idea
+*.iml
+*.ipr
+*.iws
+
+## Fichiers Clion
+Debug
+
+## Fichiers Netbeans
+nbproject
+
+#### Fichiers de compilation ###
+cmake-build-debug
+target
+.build
+*.cbp
+*.layout
+CMakeFiles
+cmake_install.cmake 
+CMakeCache.txt
