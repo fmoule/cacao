@@ -30,7 +30,7 @@ file(GLOB_RECURSE SRC_TEST_FILES ${SRC_TEST_DIR}/*.cpp)
 ## Définition des tâches
 ######
 
-#### Target => clear
+#### Task => clear
 add_custom_target(cacaocore-clear COMMAND echo '=== Nettoyage du projet')
 if (EXISTS ${EXECUTABLE_OUTPUT_PATH})
     add_custom_command(TARGET cacaocore-clear COMMAND rm -rf ${EXECUTABLE_OUTPUT_PATH}/*)
@@ -39,27 +39,26 @@ if (EXISTS ${LIBRARY_OUTPUT_PATH})
     add_custom_command(TARGET cacaocore-clear COMMAND rm -rf ${LIBRARY_OUTPUT_PATH}/*)
 endif ()
 
-#### target => cacaocore-prepare
+#### Task => cacaocore-prepare
 add_custom_target(cacaocore-prepare COMMAND mkdir -p ${EXECUTABLE_OUTPUT_PATH})
 add_dependencies(cacaocore-prepare cacaocore-clear)
 add_custom_command(TARGET cacaocore-prepare POST_BUILD COMMAND mkdir -p ${LIBRARY_OUTPUT_PATH})
 
-#### Tâche principale : target => cacaocore
+#### Task => cacaocore
 add_library(cacaocore SHARED ${SRC_FILES})
 add_dependencies(cacaocore cacaocore-prepare)
 
-#### Test
-
-## target => cacaocore-build-test
+#### Task => cacaocore-build-test
 add_executable(cacaocore-build-tests ${SRC_FILES} ${SRC_TEST_FILES})
 add_dependencies(cacaocore-build-tests cacaocore)
-target_include_directories(cacaocore-build-tests PUBLIC /usr/include/cppunit)
-target_link_libraries(cacaocore-build-tests PUBLIC /usr/lib/x86_64-linux-gnu/libcppunit.so)
+target_include_directories(cacaocore-build-tests PUBLIC /usr/include/gtest)
+target_link_libraries(cacaocore-build-tests PUBLIC /usr/lib/x86_64-linux-gnu/libgtest.a)
+target_link_libraries(cacaocore-build-tests PUBLIC -lpthread -lm)
 
-## target => cacaocore-test
+#### Task => cacaocore-test
 add_custom_target(cacaocore-tests COMMAND ${EXECUTABLE_OUTPUT_PATH}/cacaocore-build-tests)
 add_dependencies(cacaocore-tests cacaocore-build-tests)
 
-## target => cacaocore-tests-mem
+#### Task => cacaocore-tests-mem
 add_custom_target(cacaocore-tests-mem COMMAND valgrind --leak-check=full ${EXECUTABLE_OUTPUT_PATH}/cacaocore-build-tests)
 add_dependencies(cacaocore-tests-mem cacaocore-build-tests)

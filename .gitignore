@@ -1,5 +1,6 @@
 #### Fichiers de compilation :
 target/
+.build/
 
 #### Fichiers IDE
 .idea/

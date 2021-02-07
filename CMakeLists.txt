@@ -15,23 +15,27 @@ add_subdirectory(cacao-core)
 ######
 ## Définition des tâches
 ## - clear
+## - init-project
 ## - build-tests
 ## - tests
 ## - package
 ######
 
-#### Target => clear
+#### Tasks => clear
 add_custom_target(clear)
 add_dependencies(clear cacaocore-clear)
 
-#### Target => build-tests
+##### Tasks => init-project
+add_custom_target(init-project COMMAND sudo apt-get install libgtest-dev)
+
+#### Tasks => build-tests
 add_custom_target(build-tests)
 add_dependencies(build-tests cacaocore-build-tests)
 
-#### Target => tests
+#### Tasks => tests
 add_custom_target(tests)
 add_dependencies(tests cacaocore-tests)
 
-#### Target => tests-mem
+#### Tasks => tests-mem
 add_custom_target(tests-mem)
 add_dependencies(tests-mem cacaocore-tests-mem)

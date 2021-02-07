@@ -7,7 +7,6 @@ using namespace std;
 namespace cacao {
 
     /// Variables statiques ///
-
     System* System::instance = new System();   // Instance du singleton
 
     /// Constructeur & Destructeur ///
