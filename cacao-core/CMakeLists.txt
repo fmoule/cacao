@@ -60,5 +60,5 @@ add_custom_target(cacaocore-tests COMMAND ${EXECUTABLE_OUTPUT_PATH}/cacaocore-bu
 add_dependencies(cacaocore-tests cacaocore-build-tests)
 
 #### Task => cacaocore-tests-mem
-add_custom_target(cacaocore-tests-mem COMMAND valgrind --leak-check=full ${EXECUTABLE_OUTPUT_PATH}/cacaocore-build-tests)
+add_custom_target(cacaocore-tests-mem COMMAND valgrind  --track-origins=yes --leak-check=full ${EXECUTABLE_OUTPUT_PATH}/cacaocore-build-tests)
 add_dependencies(cacaocore-tests-mem cacaocore-build-tests)

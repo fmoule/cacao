@@ -1,29 +1,21 @@
 #include "System.h"
 
-#include <cstddef>
-
 using namespace std;
 
 namespace cacao {
 
     /// Variables statiques ///
-    System* System::instance = new System();   // Instance du singleton
+    System* System::instance = new System();
 
     /// Constructeur & Destructeur ///
-
-    System::System() {
-        // EMPTY
-    }
-
-    System::~System() {
-        // DO NOTHING !!
-    }
+    System::System() = default;
+    System::~System() = default;
 
     /// Méthodes de la classe Object ///
 
-//    String System::toString() const {
-//        return "system";
-//    }
+    String System::toString() const {
+        return "system";
+    }
 
     int System::hashCode() const {
         return 0;
@@ -34,22 +26,13 @@ namespace cacao {
     }
 
     Object* System::clone() const {
-        return NULL;
+        return nullptr;
     }
-
 
     /// Méthodes statiques : ///
 
-    System* System::getInstance() throw() {
+    System* System::getInstance() noexcept {
         return instance;
-    }
-
-
-    void System::killInstance() throw() {
-        if (instance != NULL) {
-            delete instance;
-            instance = NULL;
-        }
     }
 
 }

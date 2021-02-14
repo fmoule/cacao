@@ -3,13 +3,13 @@
 
 #include "Object.h"
 
-//#include "string/String.h"
+#include "string/String.h"
 
 namespace cacao {
 
-/**
- * Classe représentant le système.
- */
+    /**
+     * Classe représentant le système.
+     */
     class System : public Object {
 
     private:
@@ -22,14 +22,13 @@ namespace cacao {
         /// Méthodes de la classe Object ///
 
     public:
-        int hashCode() const;
-        bool equals(const Object&) const;
-        Object* clone() const;
-//        String toString() const;
+        int hashCode() const override;
+        bool equals(const Object&) const override;
+        Object* clone() const override;
+        String toString() const override;
 
     public:
-        static System* getInstance() throw();
-        static void killInstance() throw();
+        static System* getInstance() noexcept;
     };
 
 

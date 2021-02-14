@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.5)
 ### Définition des propriétés du projet
 project(cacao)
 enable_language(CXX)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -O -pedantic -ansi -std=gnu++17")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -pedantic -ansi -std=gnu++17")
 
 ### Liste des modules
 add_subdirectory(cacao-core)
@@ -34,8 +34,4 @@ add_dependencies(build-tests cacaocore-build-tests)
 
 #### Tasks => tests
 add_custom_target(tests)
-add_dependencies(tests cacaocore-tests)
-
-#### Tasks => tests-mem
-add_custom_target(tests-mem)
-add_dependencies(tests-mem cacaocore-tests-mem)
+add_dependencies(tests cacaocore-tests-mem)
