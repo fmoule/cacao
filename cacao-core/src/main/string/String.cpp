@@ -130,7 +130,7 @@ namespace cacao {
     }
 
     String& String::operator+(const String& str) {
-        char* pChars = str.getCharacters();
+        char* pChars = str.toChars();
         this->operator+(pChars);
         RELEASE_TAB(pChars);
         return *this;
@@ -191,7 +191,7 @@ namespace cacao {
 
     ///// Getters & Setters :
 
-    char* String::getCharacters() const noexcept {
+    char* String::toChars() const noexcept {
         const int length = this->size();
         char* chars = new char[length + 1];
         for (int i = 0; i < length; i++) {

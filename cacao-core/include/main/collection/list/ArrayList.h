@@ -3,21 +3,55 @@
 
 #include "collection/list/List.h"
 
+#include "collection/iterator/Iterable.h"
+#include "collection/iterator/Iterator.h"
+
 #include "string/String.h"
 
 using namespace std;
 
 namespace cacao {
 
+
+
+    ////////////////////////////////////////
+    ///// Définition de la classe abstraite
+    ////////////////////////////////////////
+
+    template<typename T>
+    class AbstractArrayList : public virtual List<T>, public Iterable<T> {
+    protected:
+        int length;
+
+    public:
+        virtual int size() const noexcept;
+        Iterator<T> begin() const override;
+        Iterator<T> end() const override;
+    };
+
+    template<typename T>
+    int AbstractArrayList<T>::size() const noexcept {
+        return this->length;
+    }
+
+    template<typename T>
+    Iterator<T> AbstractArrayList<T>::begin() const {
+        return Iterator<T>(0, this);
+    }
+
+    template<typename T>
+    Iterator<T> AbstractArrayList<T>::end() const {
+        return Iterator<T>(this->size(), this);
+    }
+
     /////////////////////////
     ///// Définition générale
     /////////////////////////
 
     template<typename T>
-    class ArrayList : public virtual List<T> {
+    class ArrayList : public AbstractArrayList<T> {
     private:
         T* pElements;
-        int length;
 
     public:
         ArrayList();
@@ -34,7 +68,6 @@ namespace cacao {
         Object* clone() const override;
 
     public:
-        int size() const noexcept override;
         bool contains(const T& elt) const noexcept override;
         T get(const int index) const override;
 
@@ -55,10 +88,10 @@ namespace cacao {
 
     template<typename T>
     ArrayList<T>::ArrayList(const initializer_list<T> initList) {
-        length = initList.size();
+        this->length = initList.size();
         pElements = new T[this->length];
         const T* pElts = initList.begin();
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < this->length; i++) {
             *(pElements + i) = *(pElts + i);
         }
     }
@@ -104,12 +137,7 @@ namespace cacao {
         return pCopie;
     }
 
-    ///// Méthodes de l'interface List
-
-    template<typename T>
-    int ArrayList<T>::size() const noexcept {
-        return this->length;
-    }
+    ///// Méthodes de l'interface List :
 
     template<typename T>
     bool ArrayList<T>::contains(const T& elt) const noexcept {
@@ -130,14 +158,14 @@ namespace cacao {
 
     template<typename T>
     void ArrayList<T>::add(const T elt) noexcept {
-        T* pNewElements = new T[length + 1];
-        for (int i = 0; i < length; i++) {
+        T* pNewElements = new T[this->size() + 1];
+        for (int i = 0; i < this->size(); i++) {
             *(pNewElements + i) = *(this->pElements + i);
         }
-        *(pNewElements + length) = elt;
+        *(pNewElements + this->size()) = elt;
         RELEASE_TAB(this->pElements);
         this->pElements = pNewElements;
-        length = length + 1;
+        this->length = this->length + 1;
     }
 
     ////////////////////////////////
@@ -145,11 +173,10 @@ namespace cacao {
     ////////////////////////////////
 
     template<typename T>
-    class ArrayList<T*> : public virtual List<T*> {
+    class ArrayList<T*> : public virtual AbstractArrayList<T*> {
     private:
         T** pElts;
         int capacity;
-        int length;
 
     public:
         ArrayList();
@@ -169,7 +196,6 @@ namespace cacao {
         Object* clone() const override;
 
     public:
-        int size() const noexcept override;
         bool contains(T* const& t) const noexcept override;
         T* get(const int index) const override;
     };
@@ -179,7 +205,7 @@ namespace cacao {
     template<typename T>
     ArrayList<T*>::ArrayList() {
         capacity = 10;
-        length = 0;
+        this->length = 0;
         pElts = new T* [10];
         for (int i = 0; i < 10; i++) {
             *pElts = nullptr;
@@ -290,16 +316,11 @@ namespace cacao {
 
     template<typename T>
     void ArrayList<T*>::add(T* const elt) noexcept {
-        if ((length / capacity) > (2 / 3)) {
+        if ((this->length / capacity) > (2 / 3)) {
             this->resize();
         }
-        *(this->pElts + length) = new T(*elt);
-        length = length + 1;
-    }
-
-    template<typename T>
-    int ArrayList<T*>::size() const noexcept {
-        return this->length;
+        *(this->pElts + this->length) = new T(*elt);
+        this->length = this->length + 1;
     }
 
 }

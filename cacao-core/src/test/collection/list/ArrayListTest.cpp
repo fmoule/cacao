@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "collection/list/ArrayList.h"
-
 #include "string/String.h"
 
 using namespace cacao;
@@ -64,4 +63,20 @@ TEST(ArrayListTest, shouldAddLotPointers) {
         RELEASE(str);
     }
     EXPECT_EQ(list.size(), 10);
+}
+
+TEST(ArrayListTest, shouldClone) {
+    ArrayList<String> list({"test1", "test2"});
+    ArrayList<String>* pList = dynamic_cast<ArrayList<String>*>(list.clone());
+    EXPECT_FALSE(pList == nullptr);
+    RELEASE(pList);
+}
+
+TEST(ArrayListTest, shouldIterate) {
+    ArrayList<String> list({"test1", "test2"});
+    int i = 0;
+    for (String str : list) {
+        i++;
+    }
+    EXPECT_EQ(i, 2);
 }

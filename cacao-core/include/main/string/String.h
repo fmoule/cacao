@@ -37,7 +37,7 @@ namespace cacao {
         char getCharAt(const int) const;
 
     public:
-        char* getCharacters() const noexcept;
+        char* toChars() const noexcept;
     };
 
     ///////////////////////////
