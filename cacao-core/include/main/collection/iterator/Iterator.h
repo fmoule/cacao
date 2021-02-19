@@ -11,7 +11,7 @@ namespace cacao {
     class Iterator : public virtual Object {
     private:
         int index;
-        const List<T>* pList;
+        const List<T>* m_pList;
 
     public:
 
@@ -38,19 +38,19 @@ namespace cacao {
 
     template<typename T>
     Iterator<T>::Iterator(const List<T>* pList) {
-        this->pList = pList;
+        this->m_pList = pList;
         this->index = 0;
     }
 
     template<typename T>
     Iterator<T>::Iterator(int index, const List<T>* pList) {
-        this->pList = pList;
+        this->m_pList = pList;
         this->index = index;
     }
 
     template<typename T>
     Iterator<T>::Iterator(const Iterator<T> &iterator) {
-        this->pList = iterator.pList;
+        this->m_pList = iterator.m_pList;
         this->index = iterator.index;
     }
 
@@ -61,14 +61,14 @@ namespace cacao {
         }
         const Iterator<T>* pThat = dynamic_cast<const Iterator<T>*>(&object);
         bool areEquals = (this->index == pThat->index);
-        areEquals = areEquals && (this->pList == pThat->pList);
+        areEquals = areEquals && (this->m_pList == pThat->m_pList);
         return areEquals;
     }
 
     template<typename T>
     int Iterator<T>::hashCode() const {
         int hashCode = this->index;
-        hashCode = (17 * hashCode) + ((long) this->pList);
+        hashCode = (17 * hashCode) + ((long) this->m_pList);
         return hashCode;
     }
 
@@ -84,14 +84,14 @@ namespace cacao {
 
     template<typename T>
     Iterator<T>& Iterator<T>::operator=(const Iterator<T>& iterator) {
-        pList = iterator.pList;
+        m_pList = iterator.m_pList;
         index = iterator.index;
         return *this;
     }
 
     template<typename T>
     T Iterator<T>::operator*() {
-        return pList->get(index);
+        return m_pList->get(index);
     }
 
     template<typename T>
